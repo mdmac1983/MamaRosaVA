@@ -61,7 +61,7 @@ jobs:
 
       - name: Make sure the Android SDK tools this project needs are installed
         run: |
-          SDKMANAGER=$(command -v sdkmanager || find "$ANDROID_SDK_ROOT/cmdline-tools" -maxdepth 2 -name sdkmanager -type f 2>/dev/null | sort | tail -1)
+          SDKMANAGER=$(command -v sdkmanager || find "$ANDROID_SDK_ROOT/cmdline-tools" -maxdepth 4 -name sdkmanager -type f 2>/dev/null | sort | tail -1)
           if [ -z "$SDKMANAGER" ]; then
             echo "Could not find sdkmanager on this runner." >&2
             exit 1
