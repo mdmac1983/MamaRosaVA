@@ -22,7 +22,7 @@ on:
       - "android/**"
       - "package.json"
       - "package-lock.json"
-      - "capacitor.config.ts"
+      - "capacitor.config.json"
   workflow_run:
     workflows: ["Unzip Web Assets"]
     types: [completed]
