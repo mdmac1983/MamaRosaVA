@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mama Rosa's</title>
+<meta name="description" content="Order online, view the full menu, get directions, and reserve a table at Mama Rosa's Italian Family Restaurant in Hampton, VA.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1b4d3e">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mama Rosa's">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap');
+
+:root{
+  --green-dark:#1b4d3e; --green:#26694f; --red:#8f2233; --red-dark:#6e1a27;
+  --gold:#c9a24b; --gold-light:#e2c073; --cream:#fdf6ea; --cream-2:#f6ead3;
+  --ink:#241a12; --ink-soft:#6b5c4d; --line:#e7d9bd;
+  --shadow:0 10px 24px rgba(36,26,18,.14);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;overflow-x:hidden;}
+body{
+  font-family:'Cormorant Garamond',serif; background:var(--cream); color:var(--ink);
+  font-size:17px; line-height:1.45; -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+h1,h2,h3{font-family:'Playfair Display',serif; color:var(--green-dark); margin:0 0 8px;}
+a{color:inherit; text-decoration:none;}
+svg{width:20px;height:20px;fill:currentColor;flex-shrink:0;}
+button{font:inherit; cursor:pointer; background:none; border:none; color:inherit;}
+input,select,textarea{font:inherit;}
+
+.app-shell{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:var(--cream);position:relative;}
+
+/* ---------- Topbar ---------- */
+.app-topbar{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;
+  background:var(--green-dark); color:var(--cream); position:sticky; top:0; z-index:20;
+  box-shadow:var(--shadow);
+}
+.topbar-logo{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex-shrink:0;}
+.topbar-text{display:flex;flex-direction:column;flex:1;min-width:0;}
+.topbar-name{font-family:'Playfair Display',serif;font-weight:700;font-size:1.15rem;color:#fff;line-height:1.1;}
+.topbar-tag{font-size:.72rem;color:var(--gold-light);letter-spacing:.03em;}
+.status-pill{
+  font-size:.68rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase;
+  padding:5px 10px; border-radius:999px; background:#3a7a5e; color:#fff; white-space:nowrap;
+}
+.status-pill.closed{background:var(--red);}
+
+/* ---------- Views ---------- */
+.app-main{flex:1;padding:16px 16px 90px;}
+.view{display:none;}
+.view.active{display:block; animation:fadein .18s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.section-title{font-size:1.3rem;margin:20px 0 12px;}
+.muted{color:var(--ink-soft);margin:0 0 14px;}
+.muted-inline{color:var(--ink-soft);font-size:.92rem;}
+
+/* ---------- Hero / CTA ---------- */
+.hero-card{
+  position:relative; border-radius:16px; overflow:hidden; height:190px;
+  background-size:cover; background-position:center; box-shadow:var(--shadow); margin-bottom:14px;
+}
+.hero-card-overlay{
+  position:absolute; inset:0; padding:16px;
+  background:linear-gradient(180deg,rgba(27,77,62,.15) 0%,rgba(20,15,10,.82) 100%);
+  display:flex; flex-direction:column; justify-content:flex-end; color:#fff;
+}
+.hero-script{font-family:'Great Vibes',cursive; font-size:1.6rem; color:var(--gold-light); line-height:1;}
+.hero-card-overlay h1{color:#fff; font-size:1.9rem; margin:2px 0 4px;}
+.hero-card-overlay p{margin:0; font-size:.92rem; color:#f1e6d0; max-width:36ch;}
+
+.order-cta{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  background:var(--red); color:#fff; padding:14px 18px; border-radius:12px;
+  font-family:'Playfair Display',serif; font-weight:700; font-size:1.05rem;
+  box-shadow:var(--shadow); margin-bottom:16px; border:none;
+}
+.order-cta svg{fill:#fff;}
+.order-cta.secondary{background:var(--green-dark);}
+
+/* ---------- Quick actions ---------- */
+.quick-actions{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:22px;}
+.qa-btn{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 4px;
+  font-size:.78rem; color:var(--green-dark); font-weight:600; text-align:center;
+}
+.qa-btn svg{fill:var(--red); width:22px;height:22px;}
+
+/* ---------- Dish scroll ---------- */
+.dish-scroll{display:flex; gap:12px; overflow-x:auto; padding:2px 2px 10px; margin-bottom:6px; -webkit-overflow-scrolling:touch;}
+.dish-card{flex:0 0 auto; width:118px; text-align:center;}
+.dish-card img{width:118px;height:118px;border-radius:12px;object-fit:cover;box-shadow:var(--shadow);margin-bottom:6px;}
+.dish-card span{font-size:.82rem;font-weight:600;color:var(--green-dark);}
+
+/* ---------- Info cards ---------- */
+.info-card{
+  background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px;
+  margin-bottom:14px; box-shadow:var(--shadow);
+}
+.info-card h3{display:flex;align-items:center;gap:8px;font-size:1.05rem;margin-bottom:8px;}
+.info-card h3 svg{fill:var(--red); width:18px;height:18px;}
+.link-btn{display:flex;align-items:center;gap:6px;color:var(--red);font-weight:600;margin-top:6px;}
+.link-btn.center{justify-content:center; margin-top:14px;}
+.link-btn svg{fill:var(--red); width:16px;height:16px;}
+
+/* ---------- Menu ---------- */
+.menu-chip-row{display:flex; gap:8px; overflow-x:auto; padding:2px 2px 10px; margin-bottom:4px; -webkit-overflow-scrolling:touch;}
+.chip{
+  flex:0 0 auto; background:#fff; border:1px solid var(--gold); color:var(--green-dark);
+  padding:8px 14px; border-radius:999px; font-size:.85rem; font-weight:600; white-space:nowrap;
+}
+.chip.active{background:var(--green-dark); color:#fff; border-color:var(--green-dark);}
+.menu-hint{color:var(--ink-soft); font-size:.85rem; margin-bottom:10px;}
+.menu-cat{margin-bottom:22px; scroll-margin-top:70px;}
+.menu-cat h3{border-bottom:2px solid var(--gold); padding-bottom:6px; margin-bottom:4px;}
+.item-row{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:12px 4px; border-bottom:1px solid var(--line);
+}
+.item-row:last-child{border-bottom:none;}
+.item-main{display:flex; flex-direction:column; min-width:0; flex:1;}
+.item-name{font-weight:600; color:var(--ink); font-size:1rem;}
+.item-desc{font-size:.85rem; color:var(--ink-soft); margin-top:2px;}
+.item-side{display:flex; align-items:center; gap:10px; flex-shrink:0;}
+.item-price{font-family:'Playfair Display',serif; color:var(--red); font-weight:700; font-size:.95rem;}
+.item-add{
+  width:26px;height:26px; border-radius:50%; background:var(--cream-2);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.item-add svg{width:14px;height:14px; fill:var(--green-dark);}
+
+/* ---------- Forms ---------- */
+.success-box{
+  display:none; background:#e7f3ec; border:1px solid var(--green); color:var(--green-dark);
+  padding:12px 14px; border-radius:10px; margin-bottom:14px; font-size:.92rem;
+}
+.success-box.show{display:block;}
+form label{display:block; font-weight:600; color:var(--green-dark); font-size:.88rem; margin-bottom:12px;}
+form input, form select, form textarea{
+  display:block; width:100%; margin-top:5px; padding:11px 12px; border:1px solid var(--line);
+  border-radius:9px; background:#fff; color:var(--ink); font-size:1rem;
+}
+form textarea{min-height:70px; resize:vertical;}
+.form-row-2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+
+/* ---------- Info view ---------- */
+.addr-line{display:flex; align-items:flex-start; gap:8px; margin:0 0 12px; font-size:1.02rem;}
+.addr-line svg{fill:var(--red); flex-shrink:0; margin-top:2px;}
+.hours-table{width:100%; border-collapse:collapse;}
+.hours-table td{padding:7px 2px; border-bottom:1px solid var(--line); font-size:.95rem;}
+.hours-table td:first-child{font-weight:600; color:var(--green-dark); width:40%;}
+.hours-table tr[data-day].today td{color:var(--red); font-weight:700;}
+.map-embed{border-radius:10px; overflow:hidden; margin-top:12px; height:160px;}
+.map-embed iframe{width:100%; height:100%; border:0;}
+.social-row{display:flex; gap:10px; flex-wrap:wrap;}
+.social-btn{
+  display:flex; align-items:center; gap:8px; background:var(--cream-2); color:var(--green-dark);
+  padding:10px 14px; border-radius:9px; font-weight:600; font-size:.9rem;
+}
+.social-btn svg{fill:var(--green-dark); width:16px;height:16px;}
+
+.app-footer{text-align:center; padding:18px 8px 8px; color:var(--ink-soft); font-size:.82rem;}
+.app-footer-copy{margin:0 0 10px; font-weight:600; color:var(--green-dark);}
+.app-footer img{margin:0 auto 10px;}
+.app-footer p{margin:0;}
+
+/* ---------- Bottom nav ---------- */
+.bottom-nav{
+  position:fixed; left:0; right:0; bottom:0; z-index:30;
+  max-width:520px; margin:0 auto;
+  display:flex; background:#fff; border-top:1px solid var(--line);
+  box-shadow:0 -4px 16px rgba(36,26,18,.1);
+  padding-bottom:env(safe-area-inset-bottom, 0);
+}
+.nav-btn{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
+  padding:9px 4px 8px; color:var(--ink-soft); font-size:.68rem; font-weight:600;
+}
+.nav-btn svg{width:20px;height:20px; fill:var(--ink-soft);}
+.nav-btn.active{color:var(--red);}
+.nav-btn.active svg{fill:var(--red);}
+
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <header class="app-topbar">
+    <img src="assets/logo.jpg" alt="Mama Rosa's logo" class="topbar-logo">
+    <div class="topbar-text">
+      <span class="topbar-name">Mama Rosa's</span>
+      <span class="topbar-tag">Italian Family Restaurant</span>
+    </div>
+    <span id="status-pill" class="status-pill">&nbsp;</span>
+  </header>
+
+  <main class="app-main" id="app-main">
+
+    <!-- ===================== HOME ===================== -->
+    <section class="view active" id="view-home">
+      <div class="hero-card" style="background-image:url('assets/dish-surf-turf.jpg');">
+        <div class="hero-card-overlay">
+          <span class="hero-script">Benvenuti a</span>
+          <h1>Mama Rosa's</h1>
+          <p>Scratch-made Italian in Hampton, VA &mdash; family owned for over 30 years.</p>
+        </div>
+      </div>
+
+      <a class="order-cta" href="https://order.toasttab.com/online/mamarosas" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M6 2v8a2 2 0 0 0 2 2v10h2V12a2 2 0 0 0 2-2V2H8v7H7V2H6zm10 0c-1.7 0-3 2.2-3 5s1.3 5 3 5v9h2V2h-2z"/></svg> <span>Order Online Now</span>
+      </a>
+
+      <div class="quick-actions">
+        <a class="qa-btn" href="tel:+17577233560"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.6 4.9 6.3 6.3l2.1-2.1c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.3 1L6.6 10.8z"/></svg><span>Call</span></a>
+        <a class="qa-btn" href="https://www.google.com/maps/dir/?api=1&destination=617+E+Mercury+Blvd,+Hampton,+VA+23663" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span>Directions</span></a>
+        <button class="qa-btn" data-nav="view-reserve"><svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zM5 9h14v11H5V9z"/></svg><span>Reserve</span></button>
+        <button class="qa-btn" data-nav="view-info"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Hours</span></button>
+      </div>
+
+      <h2 class="section-title">Guest Favorites</h2>
+      <div class="dish-scroll">
+        <div class="dish-card"><img src="assets/dish-surf-turf.jpg" alt="Land &amp; Sea"><span>Land &amp; Sea</span></div>
+        <div class="dish-card"><img src="assets/dish-veal-parm.jpg" alt="Veal Parmigiana"><span>Veal Parmigiana</span></div>
+        <div class="dish-card"><img src="assets/dish-supreme-pizza.jpg" alt="Sal's Combination Pizza"><span>Sal's Combination</span></div>
+        <div class="dish-card"><img src="assets/dish-rigatoni-pink.jpg" alt="Rigatoni Rosa"><span>Rigatoni Rosa</span></div>
+        <div class="dish-card"><img src="assets/dish-tiramisu-slice.jpg" alt="Tiramisu"><span>Tiramisu</span></div>
+      </div>
+
+      <div class="info-card">
+        <h3><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 10.4 4 2.4-.8 1.4L11 13V6h2v6.4z"/></svg> Today's Hours</h3>
+        <p id="today-hours-line">&nbsp;</p>
+        <button class="link-btn" data-nav="view-info">See full hours &amp; location <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+
+      <div class="info-card">
+        <h3><svg viewBox="0 0 24 24"><path d="M20 7h-2.2a3 3 0 0 0-4.8-3.5L12 4.5l-1-1A3 3 0 0 0 6.2 7H4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zM6 20v-8h5v8H6zm7 0v-8h5v8h-5zM6 10V9h5v1H6zm7-4.6c0-.8.7-1.4 1.5-1.4.9 0 1.6.7 1.6 1.6 0 .9-.7 1.4-1.6 1.4H13V5.4zM13 10V9h5v1h-5z"/></svg> Private Events &amp; Catering</h3>
+        <p>Birthdays, showers, holiday parties &mdash; we've got a room and a menu for it.</p>
+        <a class="link-btn" href="tel:+17577233560">Call to book <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></a>
+      </div>
+    </section>
+
+    <!-- ===================== MENU ===================== -->
+    <section class="view" id="view-menu">
+      <div class="menu-chip-row" id="menu-chip-row">
+        <button class="chip" data-target="cat-starters">Let's Get Started</button><button class="chip" data-target="cat-soup-salad">Soup & Salad</button><button class="chip" data-target="cat-pizza">Specialty Pizza</button><button class="chip" data-target="cat-pasta">Italian Favorite Pastas</button><button class="chip" data-target="cat-land-sea">From Land to Sea</button><button class="chip" data-target="cat-strom-calz">Strombolis & Calzones</button><button class="chip" data-target="cat-burgers-subs">Burgers, Chicken & Hot Subs</button><button class="chip" data-target="cat-kids">Kids Menu</button><button class="chip" data-target="cat-sides">Sides</button><button class="chip" data-target="cat-desserts">Desserts</button>
+      </div>
+      <p class="menu-hint">Tap any item to order it directly on Toast.</p>
+      <div id="menu-list">
+        
+      <section class="menu-cat" id="cat-starters">
+        <h3>Let's Get Started</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-classic-bruschetta_84fab571-5cb7-4fa0-9498-40c7e33e06ab" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Classic Bruschetta</span>
+            <span class="item-desc">Toasted crostini, vine-ripened tomato, basil, garlic</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$10</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-mamas-burrata-bruschetta_caf0a590-b91c-46d8-827b-09074a2df4ea" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Mama's Burrata Bruschetta</span>
+            <span class="item-desc">Creamy burrata over toasted crostini</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$12</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-cheesy-garlic-bread_8b674048-31d5-4893-934a-cb33f31bbbc1" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Cheesy Garlic Bread</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-garlic-knots_c2ca4f80-aac9-4a2d-ac61-703f28df5000" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Garlic Knots</span>
+            <span class="item-desc">Baked fresh, brushed with garlic butter</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-mozzarella-sticks_d20e897e-5779-49fc-9262-fb62679bface" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Mozzarella Sticks</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$11</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-fried-zucchini-sticks_f73b9165-c2df-4628-a79a-f09cfcf5d985" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Fried Zucchini Sticks</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$10</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-fried-pickles_0bbd085b-9c02-4582-a7bb-d84544d2c945" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Fried Pickles</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$10</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-garlic-parmesan-cheese-curds_191832ba-4c35-472f-a00c-3d72601da8d0" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Garlic Parmesan Cheese Curds</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$10</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-calamari_b77b68b7-e7c6-42c4-abee-eff454573084" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Calamari</span>
+            <span class="item-desc">Lightly fried, served with marinara</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$14</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-fresh-steamed-mussels_9598dd24-52bd-45fb-9d36-6c45f6e43088" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Fresh Steamed Mussels</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$14</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-smoked-or-spicy-breaded-wings_0168f8d1-d0ac-472b-bf72-5593a6e67136" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Smoked / Spicy Breaded Wings</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$12</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-bacon-cheesefries_49064c51-ed8d-4112-b0c6-019e7b354c12" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Bacon Cheesefries</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$10</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-sampler-platter_7ba741b6-0b6b-4098-9540-f86d16896f17" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Sampler Platter</span>
+            <span class="item-desc">A little bit of everything</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$14</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      <section class="menu-cat" id="cat-soup-salad">
+        <h3>Soup & Salad</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-cup-of-soup_39ca53c8-e8d0-4a6c-8ec4-937acf8cb3fd" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Cup of Soup</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$4</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-bowl-of-soup_8cb25b2d-41a0-4f82-b702-07f5dfd40e56" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Bowl of Soup</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$7</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-house-salad_4db8bb62-d120-4915-ba26-90c942caa3e6" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">House Salad</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$5+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-caesar-salad_b28d5fc1-d295-47de-99bd-d0f94d52bd36" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Caesar Salad</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$5+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-greek-salad_16a4740b-dba1-48e4-ae30-4d926591b4ab" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Greek Salad</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$6+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-antipasto-salad_fb03c6d4-3ccc-44ed-a63d-995cee0afb63" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Antipasto Salad</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$13</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chef-salad_499ad006-aacf-4aaf-8fb4-7df1d5316870" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chef Salad</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$13</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-cobb-salad_3b85df5c-fa6f-4506-889a-831063acb3b4" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Cobb Salad</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$13</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-philly-salad_4ae60820-668f-467f-a735-af4bb07dbac1" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Philly Salad</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$13</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-grilled-or-crispy-chicken-salad_bbd7552c-d84b-4efa-96f2-c0d09ab1082e" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Grilled / Crispy Chicken Salad</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$15</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-shrimp-salad_69518d55-b872-48e3-9281-8f603e78d0b5" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Shrimp Salad</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$15</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      <section class="menu-cat" id="cat-pizza">
+        <h3>Specialty Pizza</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-margarita-pizza_6ab5abfc-bd77-4acd-8d1d-c877d509e26b" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Margarita Pizza</span>
+            <span class="item-desc">San Marzano tomato, fresh mozzarella, basil</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-white-pizza_8c90df60-4f44-4ef9-94f7-c9e2a40e4836" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">White Pizza</span>
+            <span class="item-desc">Ricotta, mozzarella, garlic, olive oil</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-sals-combination_1363d5f6-5a0a-418b-860d-264afaad758b" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Sal's Combination</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-philly-steak-pizza_75447561-b9a7-4070-a674-1ca447464a8e" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Philly Steak Pizza</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-nonnas-spinach-and-sausage_44b0eb4f-0fc1-4cb4-94c5-d4cac6f278ae" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Nonna's Spinach & Sausage</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-shrimp-palermo_8901776f-b5cb-44b1-a66f-68eac6dd6fc6" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Shrimp Palermo</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-meat-lovers_3045105e-35d5-4560-8c98-7739a2a28413" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Meat Lovers</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-mediterraneo-pizza_9ec17c92-5d4a-4d54-8cac-14470ca086dc" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Mediterraneo Pizza</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-buffalo-chicken-pizza_433c233f-5f0c-4dc3-903b-dee21c3dc4c7" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Buffalo Chicken Pizza</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chicken-florentine-pizza_7bdb2a42-8a31-4013-b78e-8bc5bd9e4145" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken Florentine</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-garlic-breadsticks-pizza_c83a85aa-2f0d-4d3e-8acc-b26358e9e7da" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Garlic Breadsticks Pizza</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-create-your-own-pizza_2303c164-e470-4f1e-a2ef-27df053633be" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Create Your Own Pizza</span>
+            <span class="item-desc">Sicilian crust requires 1–1.5 hours</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$13+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      <section class="menu-cat" id="cat-pasta">
+        <h3>Italian Favorite Pastas</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-mimmas-lasagna_fb2d3127-4c55-4125-9a81-5af29f450b57" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Mimma's Lasagna</span>
+            <span class="item-desc">The family recipe</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$19</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-baked-ziti_abbc116d-f644-484c-a596-58e8b803f845" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Baked Ziti</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$19</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-baked-spaghetti_f2682940-5b2e-439b-b7be-7e85a767f405" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Baked Spaghetti</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$19</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-homemade-manicotti_e72ed815-e5fb-4fc7-a364-ef96c9d1012a" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Homemade Manicotti</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$19</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-ravioli-al-forno_e8ba06aa-2a10-447d-b26c-489183f13f58" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Ravioli Al Forno</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$19</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-tortellini_b2cf1e0c-b265-441a-82cb-33f4edf3427a" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Tortellini</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$19</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-eggplant-parmigiana_f224a04c-d1eb-4ebd-b7a7-d7c66bbd2fd0" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Eggplant Parmigiana</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$19</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-linguine-clam-sauce_757c09e2-fdda-4140-b1f7-9b101c987c32" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Linguine Clam Sauce</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$20</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-pasta-a-la-mimma-chicken_a01fbc9e-6690-41d4-b310-e715388ad84d" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Pasta A La Mimma — Chicken</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$21</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chicken-di-saronno_bf61f148-0ea6-426a-98d5-4de12be29c70" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken Di Saronno</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$21</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chicken-bianca-al-forno_290cb5ec-fbda-4ef1-a550-abece07b523d" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken Bianca Al Forno</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$23</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-pasta-a-la-mimma-shrimp_430c105f-0652-4b97-a2a6-9476e5b89cfd" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Pasta A La Mimma — Shrimp</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$23</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-create-your-own-pasta_e4a3e77c-cdbf-4375-b1a1-8abb33723da6" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Create Your Own Pasta (BYO)</span>
+            <span class="item-desc">Choice of pasta, sauce & toppings</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">Market</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      <section class="menu-cat" id="cat-land-sea">
+        <h3>From Land to Sea</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chicken-parmigiana_97d8136a-666d-4ed3-b3ae-ff9068dd4306" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken Parmigiana</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$21</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-marsala-chicken_cab11d5f-3491-461b-bd32-45b00f12b5cf" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken Marsala</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$21</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-francese-chicken_83502f1e-4fbe-4071-aabd-65fabb20cc3c" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken Francese</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$21</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chicken-piccata_91969535-36d0-4afb-b527-489a7f4adf19" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken Piccata</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$21</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-vodka-sunrise-chicken_e6fb27a8-e86c-422f-86e7-d62884ea493b" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Vodka Sunrise Chicken</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$21</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-marsala-pomodoro-ckn_36d7b190-34dd-43dd-b63b-eac2c1d11086" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Marsala Pomodoro Chicken</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$23</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-marsala-veal_37395f22-8bb7-4153-ba58-313c075b808f" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Veal Marsala</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$23</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-francese-veal_7c1bc496-b9d6-4900-a29b-73b912a232d0" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Veal Francese</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$23</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-veal-parmigiana_e1979e2f-c54b-487d-a025-d7b9bd8990a9" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Veal Parmigiana</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$23</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-vodka-sunrise-veal_261b3e1c-be51-423f-a576-953086cfb766" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Vodka Sunrise Veal</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$23</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-marsala-pomodoro-veal_dc0d728c-9982-448a-8391-e27066549923" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Marsala Pomodoro Veal</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$23</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-veal-piccata_9101a124-a1dc-41ed-8250-4a90836f6748" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Veal Piccata</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$24</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-shrimp-parmigiana_2ea8ed12-55bf-48f8-9ec3-e9e59f4c827a" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Shrimp Parmigiana</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$22</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-shrimp-scampi_5177cd9a-66ae-47f3-815e-035bb6fba021" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Shrimp Scampi</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$25</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-vodka-sunrise-shrimp-and-scallops_4cfcdbdc-da29-487d-8447-449b37caad2f" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Vodka Sunrise Shrimp & Scallops</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$27</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-shrimp-and-crab-meat-chevere_f7a2e368-b9d8-40ac-a18f-eeecc10f4943" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Shrimp & Crab Meat Chevere</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$29</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-pasta-frutti-di-mare_29f7765d-31a5-4ee0-aef9-b49ea27de790" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Pasta Frutti Di Mare</span>
+            <span class="item-desc">Shrimp, scallops, mussels & clams</span>
+          </span>
+          <span class="item-side">
+            <span class="item-price">$32</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      <section class="menu-cat" id="cat-strom-calz">
+        <h3>Strombolis & Calzones</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-cheese-stromboli_534a48df-814c-4aa4-9ac3-16ac3ca49b1a" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Cheese Stromboli</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$14+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-combination-stromboli_149a4349-fb51-4a6f-904f-06348fb60112" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Combination Stromboli</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-philly-steak-stromboli_01a69d8e-789f-47c1-92f5-462a194d22ae" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Philly Steak Stromboli</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-philly-chicken-stromboli_02cbc631-1877-4a43-9a7a-40629c1f921a" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Philly Chicken Stromboli</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-meat-lovers-stromboli-_1c49c0f5-0823-4929-a443-c0a8b021e267" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Meat Lovers Stromboli</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$18+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-cheese-calzone_01f2d738-b82a-4076-b9b9-913ec4e5646d" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Cheese Calzone</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$11</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-spinach-calzone_23334985-6031-4c6c-83e7-047985590c4f" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Spinach Calzone</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$15</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-philly-steak-calzone_e89921be-caa3-4f31-b762-580f89678f93" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Philly Steak Calzone</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$17</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-philly-chicken-calzone_920d7fd5-7e05-472c-a167-aee70eff60d0" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Philly Chicken Calzone</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$17</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-combination-calzone_f77fa50f-533e-4409-8b4b-6e943fae6bc9" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Combination Calzone</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$17</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      <section class="menu-cat" id="cat-burgers-subs">
+        <h3>Burgers, Chicken & Hot Subs</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-half-pound-burger_20e2376c-27e9-4266-87c9-5f416ef91ed1" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Half Pound Burger</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$11</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-the-works-burger_a65e60fe-87a3-4333-8aed-c3f83a6e92c7" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">The Works Burger</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$15</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-grilled-chicken-club_7640219e-5e43-4185-b165-1c2ae529bbd6" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Grilled Chicken Club</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$12.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-fried-chicken-club_517c9a79-9269-437b-85c5-654ce2199cfb" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Fried Chicken Club</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$12.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chicken-finger-platter_1d56f664-78a9-4d5d-8ce6-7908419425b8" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken Finger Platter</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$10</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-italian_1c7c1e32-8e64-4cf5-9c0b-c1d92db5112f" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Italian Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$12+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-meatball-parmigiana_60f24587-9158-41f8-9507-bac7becb3af2" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Meatball Parmigiana Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$11+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chicken-parmigiana_08bd17ac-8352-4c9c-aca4-ef0477b92557" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken Parmigiana Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$11+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-veal-parmigiana_6470c7ae-b9b9-46db-b35c-ead8c7b72471" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Veal Parmigiana Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$12+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-eggplant-parmigiana_080907fd-e7c9-450d-b074-7820f200c67e" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Eggplant Parmigiana Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$10+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-sausage-and-peppers_1817a2e9-59e2-45d9-8df1-f8b406610280" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Sausage & Peppers Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$11+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-philly-steak_16dedbc9-d75c-494e-8611-6b797eb0995d" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Philly Steak Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$12+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-philly-chicken_39c00753-cf35-4060-9fce-afcad17dd7df" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Philly Chicken Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$12+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-hrbt_be2a1fef-573e-4f52-847f-20141762a760" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">HRBT Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$13+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-fat-mamma_e9f26cae-a4f8-4171-87d2-cdfccae64aff" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Fat Mamma Sub</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$14+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-turkey-club_9b923217-2f68-4273-bd33-01b76f2a1cb0" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Turkey Club</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$12+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-blt_193820f6-12cd-4808-8664-908bbe6b166f" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">BLT</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$10+</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      <section class="menu-cat" id="cat-kids">
+        <h3>Kids Menu</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-personal-pan-pizza_35078c65-d389-49de-a0ea-b2a2d91e73d1" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Personal Pan Pizza</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$7.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-kids-cheeseburger_0207c8a2-a7f7-4ac8-8552-523e73f8364c" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Kids Cheeseburger</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$7.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-kids-chicken_219038dc-ab6f-46e4-a026-90fa11c5b56a" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Kids Chicken</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$7.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-grilled-cheese_202e7088-4dea-4127-bef0-06dd52767e12" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Grilled Cheese</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$7.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-kids-pasta_8b2db56b-23c7-4217-9f6a-332bc23231fd" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Kids Pasta</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$7.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-kids-tortellini_adb57d19-c959-433d-a96e-46c1fd30ca3f" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Kids Tortellini</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$9.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      <section class="menu-cat" id="cat-sides">
+        <h3>Sides</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-housemade-sausage_8d57176e-d7cb-4505-846a-d0ef256b1cbf" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Housemade Sausage</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$5</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-two-meatballs_e2176565-0465-4484-87b0-f84db08b373c" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Two Meatballs</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$5</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chicken_e31dee34-df80-435e-bc92-55c1673e439c" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chicken</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$5</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-french-fries_90a44d67-ae9f-49b4-a385-19d7d9623511" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">French Fries</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$3</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-onion-rings_82882447-4a72-4c87-8946-50baa520c923" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Onion Rings</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$4</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-steamed-broccoli_dea21ec2-0987-47cd-8e37-2a953c8595fd" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Steamed Broccoli</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$3.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-sauteed-spinach_6f02e14b-397e-4e3f-a1c1-8b160ed2a285" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Sauteed Spinach</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$3.50</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-bread-loaf_47306cbf-644a-479c-90ea-d3152452155f" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Bread Loaf</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$4</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-shrimp_3dca5475-33e7-486b-8c76-26071b40dffe" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Shrimp</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-scallops_271c2d02-8c67-4c0a-8f46-4273127db27f" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Scallops (3 ct)</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-salmon_11b07301-d231-4842-9907-7455f30c2638" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Salmon</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$9</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      <section class="menu-cat" id="cat-desserts">
+        <h3>Desserts</h3>
+        
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-homemade-zeppoles_1e1f6254-6373-47c1-9dba-bf4bb3ad8e6f" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Homemade Zeppoles</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$7</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-canoli_604c9334-a203-4470-8bc8-7785af551fa0" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Canoli</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$6</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chocolate-canoli_5e9d7287-1ce8-4cae-bed5-2a5328cfcd44" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chocolate Canoli</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$7</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-tiramisu_9d5578b5-7323-463b-8c6e-4544c8966ffa" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Tiramisu</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$7</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-new-york-cheesecake_35ae292e-3b7b-45cd-943d-29e87fa52a6d" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">New York Cheesecake</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chocolate-cake_61f97b62-c300-46f0-bf36-efa747284f44" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Chocolate Cake</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-carrotcake_3b2cf0bc-8701-4e20-9dc8-4a0ec4913612" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Carrot Cake</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-rainbow-cake_0fae7873-d3a7-40ed-a1e0-ceee86d80bb3" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Rainbow Cake</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-red-velvet-cake_86f79575-7668-4d38-9947-9ba6cb8c940b" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Red Velvet Cake</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-coconut-cake_0bd72450-7962-4758-b52e-3a84d30e0f86" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Coconut Cake</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-lemoncello_bec8bed0-6604-460c-a4f2-393a4d019333" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Lemoncello Cake</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-florida-orange-sunshine-cake_954de660-57e5-4299-96af-336a5e5c61fe" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Florida Orange Sunshine Cake</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+        <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-dubai-style-tort_ee26ec54-f60b-4bd0-98a0-fd539c2dafbd" target="_blank" rel="noopener">
+          <span class="item-main">
+            <span class="item-name">Dubai Style Torte</span>
+            
+          </span>
+          <span class="item-side">
+            <span class="item-price">$8</span>
+            <span class="item-add"><svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg></span>
+          </span>
+        </a>
+      </section>
+      </div>
+      <a class="order-cta" style="margin-top:6px;" href="https://order.toasttab.com/online/mamarosas" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M6 2v8a2 2 0 0 0 2 2v10h2V12a2 2 0 0 0 2-2V2H8v7H7V2H6zm10 0c-1.7 0-3 2.2-3 5s1.3 5 3 5v9h2V2h-2z"/></svg> <span>View Full Cart on Toast</span>
+      </a>
+    </section>
+
+    <!-- ===================== RESERVE ===================== -->
+    <section class="view" id="view-reserve">
+      <h2 class="section-title">Reserve a Table</h2>
+      <p class="muted">We'll confirm by phone or email &mdash; or just call us directly.</p>
+      <div id="reserve-success" class="success-box">Thanks! Your email app should open with the request ready to send.</div>
+      <form id="reserve-form">
+        <label>Full Name<input type="text" name="name" required></label>
+        <label>Phone<input type="tel" name="phone" required></label>
+        <label>Email<input type="email" name="email" required></label>
+        <div class="form-row-2">
+          <label>Party Size
+            <select name="guests" required>
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11+">11+</option>
+            </select>
+          </label>
+          <label>Date<input type="date" name="date" required></label>
+        </div>
+        <label>Time
+          <select name="time" required>
+            <option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option><option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option>
+          </select>
+        </label>
+        <label>Notes (optional)<textarea name="notes" placeholder="Occasion, allergies, seating..."></textarea></label>
+        <button type="submit" class="order-cta" style="width:100%;">Request Reservation</button>
+      </form>
+      <a class="link-btn center" href="tel:+17577233560"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.6 4.9 6.3 6.3l2.1-2.1c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.3 1L6.6 10.8z"/></svg> Or just call (757) 723-3560</a>
+    </section>
+
+    <!-- ===================== INFO ===================== -->
+    <section class="view" id="view-info">
+      <h2 class="section-title">Hours &amp; Location</h2>
+      <div class="info-card">
+        <table class="hours-table">
+          <tr data-day="sunday"><td>Sunday</td><td>12:00 PM – 9:00 PM</td></tr>
+<tr data-day="monday"><td>Monday</td><td>Closed</td></tr>
+<tr data-day="tuesday"><td>Tuesday</td><td>11:00 AM – 9:30 PM</td></tr>
+<tr data-day="wednesday"><td>Wednesday</td><td>11:00 AM – 9:30 PM</td></tr>
+<tr data-day="thursday"><td>Thursday</td><td>11:00 AM – 9:30 PM</td></tr>
+<tr data-day="friday"><td>Friday</td><td>11:00 AM – 10:00 PM</td></tr>
+<tr data-day="saturday"><td>Saturday</td><td>11:00 AM – 10:00 PM</td></tr>
+
+        </table>
+      </div>
+
+      <div class="info-card">
+        <p class="addr-line"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg> 617 E Mercury Blvd<br><span class="muted-inline">Hampton, VA 23663</span></p>
+        <a class="order-cta secondary" href="https://www.google.com/maps/dir/?api=1&destination=617+E+Mercury+Blvd,+Hampton,+VA+23663" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg> <span>Get Directions</span></a>
+        <div class="map-embed"><iframe src="https://www.google.com/maps?q=617+E+Mercury+Blvd%2C+Hampton%2C+VA+23663&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map"></iframe></div>
+      </div>
+
+      <div class="info-card">
+        <p class="addr-line"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.6 4.9 6.3 6.3l2.1-2.1c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.3 1L6.6 10.8z"/></svg> (757) 723-3560</p>
+        <a class="order-cta secondary" href="tel:+17577233560"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.6 4.9 6.3 6.3l2.1-2.1c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.3 1L6.6 10.8z"/></svg> <span>Call the Restaurant</span></a>
+      </div>
+
+      <div class="info-card">
+        <h3>Follow &amp; Order</h3>
+        <div class="social-row">
+          <a href="https://www.facebook.com/100046471644045/" target="_blank" rel="noopener" class="social-btn"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.7-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg> Facebook</a>
+          <a href="https://order.toasttab.com/online/mamarosas" target="_blank" rel="noopener" class="social-btn"><svg viewBox="0 0 24 24"><path d="M6 2v8a2 2 0 0 0 2 2v10h2V12a2 2 0 0 0 2-2V2H8v7H7V2H6zm10 0c-1.7 0-3 2.2-3 5s1.3 5 3 5v9h2V2h-2z"/></svg> Order on Toast</a>
+        </div>
+      </div>
+
+      <div class="info-card" id="install-card" hidden>
+        <h3><svg viewBox="0 0 24 24"><path d="M12 3v10.2l3.6-3.6L17 11l-5 5-5-5 1.4-1.4L11 13.2V3h1zM5 19h14v2H5z"/></svg> Install the App</h3>
+        <p id="install-copy">Add Mama Rosa's to your home screen for one-tap ordering.</p>
+        <button id="install-btn" class="order-cta secondary" hidden><svg viewBox="0 0 24 24"><path d="M12 3v10.2l3.6-3.6L17 11l-5 5-5-5 1.4-1.4L11 13.2V3h1zM5 19h14v2H5z"/></svg> <span>Install App</span></button>
+      </div>
+
+      <div class="app-footer">
+        <p class="app-footer-copy">&copy;2026 OrionMD</p>
+        <a href="https://www.buymeacoffee.com/mdmac1983" target="_blank" rel="noopener" aria-label="Sponsor the developer on Buy Me a Coffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Sponsor the developer &mdash; Buy Me a Coffee" style="height:50px !important;width:181px !important;"></a>
+        <p>Mama Rosa's Italian Family Restaurant &middot; 617 E Mercury Blvd, Hampton, VA 23663</p>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-nav="view-home"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg><span>Home</span></button>
+    <button class="nav-btn" data-nav="view-menu"><svg viewBox="0 0 24 24"><path d="M6 2v8a2 2 0 0 0 2 2v10h2V12a2 2 0 0 0 2-2V2H8v7H7V2H6zm10 0c-1.7 0-3 2.2-3 5s1.3 5 3 5v9h2V2h-2z"/></svg><span>Menu</span></button>
+    <button class="nav-btn" data-nav="view-reserve"><svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zM5 9h14v11H5V9z"/></svg><span>Reserve</span></button>
+    <button class="nav-btn" data-nav="view-info"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Info</span></button>
+  </nav>
+
+</div>
+
+<script>
+const HOURS = [{"day": 0, "open": 720, "close": 1260}, {"day": 1, "open": null, "close": null}, {"day": 2, "open": 660, "close": 1290}, {"day": 3, "open": 660, "close": 1290}, {"day": 4, "open": 660, "close": 1290}, {"day": 5, "open": 660, "close": 1320}, {"day": 6, "open": 660, "close": 1320}];
+const RESERVATION_EMAIL = "info@mamarosava.com"; // TODO: replace with the restaurant's real inbox
+
+// ---------- Tab navigation ----------
+function showView(id){
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === id));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.nav === id));
+  document.getElementById('app-main').scrollTop = 0;
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-nav]').forEach(el => {
+  el.addEventListener('click', () => showView(el.dataset.nav));
+});
+
+// ---------- Open / closed status ----------
+function updateStatus(){
+  const now = new Date();
+  const day = now.getDay();
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const today = HOURS.find(h => h.day === day);
+  const pill = document.getElementById('status-pill');
+  const lineEl = document.getElementById('today-hours-line');
+  const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  let open = false;
+  if (today && today.open !== null && mins >= today.open && mins < today.close) open = true;
+
+  if (pill){
+    pill.textContent = open ? 'Open Now' : 'Closed';
+    pill.classList.toggle('closed', !open);
+  }
+  if (lineEl){
+    if (!today || today.open === null){
+      lineEl.textContent = dayNames[day] + ': Closed today';
+    } else {
+      lineEl.textContent = dayNames[day] + ': ' + fmtTime(today.open) + ' \u2013 ' + fmtTime(today.close) + (open ? '  \u00b7  Open now' : '  \u00b7  Closed now');
+    }
+  }
+  document.querySelectorAll('.hours-table tr[data-day]').forEach((tr, i) => {
+    tr.classList.toggle('today', i === day);
+  });
+}
+function fmtTime(mins){
+  let h = Math.floor(mins / 60), m = mins % 60;
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12; if (h === 0) h = 12;
+  return h + (m ? ':' + String(m).padStart(2,'0') : '') + ' ' + ampm;
+}
+updateStatus();
+setInterval(updateStatus, 60000);
+
+// ---------- Menu category chips: scroll-to + scrollspy ----------
+const chips = Array.from(document.querySelectorAll('.chip'));
+const menuList = document.getElementById('menu-list');
+chips.forEach(chip => {
+  chip.addEventListener('click', () => {
+    const target = document.getElementById(chip.dataset.target);
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+const chipRow = document.getElementById('menu-chip-row');
+function centerChip(chip){
+  if (!chip || !chipRow) return;
+  const target = chip.offsetLeft - (chipRow.clientWidth - chip.offsetWidth) / 2;
+  chipRow.scrollTo({left: Math.max(0, target), behavior: 'smooth'});
+}
+if (chips.length){
+  chips[0].classList.add('active');
+  const catSections = Array.from(document.querySelectorAll('.menu-cat'));
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const id = entry.target.id;
+        chips.forEach(c => c.classList.toggle('active', c.dataset.target === id));
+        const activeChip = chips.find(c => c.dataset.target === id);
+        centerChip(activeChip);
+      }
+    });
+  }, {rootMargin:'-120px 0px -70% 0px'});
+  catSections.forEach(sec => spy.observe(sec));
+}
+
+// ---------- Reservation form (mailto) ----------
+const reserveForm = document.getElementById('reserve-form');
+if (reserveForm){
+  reserveForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fd = new FormData(reserveForm);
+    const subject = 'Reservation Request \u2014 ' + fd.get('name');
+    const bodyLines = [
+      'Name: ' + fd.get('name'),
+      'Phone: ' + fd.get('phone'),
+      'Email: ' + fd.get('email'),
+      'Party size: ' + fd.get('guests'),
+      'Date: ' + fd.get('date'),
+      'Time: ' + fd.get('time'),
+      'Notes: ' + (fd.get('notes') || '\u2014')
+    ];
+    const mailto = 'mailto:' + RESERVATION_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(bodyLines.join('\n'));
+    window.location.href = mailto;
+    const successBox = document.getElementById('reserve-success');
+    if (successBox) successBox.classList.add('show');
+    reserveForm.reset();
+  });
+}
+
+// ---------- PWA install prompt ----------
+let deferredInstallPrompt = null;
+const installCard = document.getElementById('install-card');
+const installBtn = document.getElementById('install-btn');
+const installCopy = document.getElementById('install-copy');
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+
+if (!isStandalone && !isNativeApp && installCard){
+  installCard.hidden = false;
+  if (isIOS){
+    if (installCopy) installCopy.textContent = 'Tap the Share icon in Safari, then \u201cAdd to Home Screen.\u201d';
+  } else {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      if (installBtn) installBtn.hidden = false;
+    });
+    if (installBtn){
+      installBtn.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) return;
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        installBtn.hidden = true;
+      });
+    }
+  }
+}
+
+// ---------- Service worker ----------
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
+</script>
+</body>
+</html>

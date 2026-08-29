@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Mama Rosa\'s</string>
+    <string name="title_activity_main">Mama Rosa\'s</string>
+    <string name="package_name">com.mamarosas.app</string>
+    <string name="custom_url_scheme">com.mamarosas.app</string>
+</resources>

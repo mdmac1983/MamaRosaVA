@@ -1,0 +1,6 @@
+# JS deps (CI reinstalls from package-lock.json)
+node_modules/
+
+# OS junk
+.DS_Store
+Thumbs.db
