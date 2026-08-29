@@ -1,0 +1,94 @@
+name: Bootstrap Project From Zip
+
+# One-time-use workflow: use this if you ever need to load this repo's
+# files straight from the full project zip Claude sends you, without
+# extracting anything on your phone first.
+#
+# How to use it:
+#   1. Upload the whole project zip as-is (Add file -> Upload files -> pick
+#      the .zip -> commit straight to main). It can land anywhere near the
+#      top of the repo (root or the "incoming" folder both work).
+#   2. Go to this repo's Actions tab -> "Bootstrap Project From Zip" in the
+#      left sidebar -> "Run workflow" button -> Run workflow.
+#   3. Wait about 15-20 seconds, refresh the repo's main page -- the zip
+#      is gone and the real project files (android/, www/, package.json,
+#      etc.) are there instead.
+#
+# This does NOT run automatically on its own (no push trigger) -- it only
+# runs when you tap "Run workflow" by hand, so it's safe to leave in the
+# repo permanently and re-run any time you need to reload everything from
+# a fresh zip.
+#
+# It extracts everything in the zip EXCEPT the .github folder. GitHub
+# never lets a workflow's own commit create or modify files under
+# .github/workflows/ (a security restriction) -- but that's fine, because
+# you already have those files: you're running one of them right now.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Find and extract the project zip into the repo root
+        run: |
+          set -e
+          zips=()
+          while IFS= read -r -d '' f; do
+            zips+=("$f")
+          done < <(find . -maxdepth 2 -iname '*.zip' -not -path './.git/*' -print0)
+
+          if [ ${#zips[@]} -eq 0 ]; then
+            echo "No .zip file found in the repo (checked root and one level of subfolders) -- nothing to do."
+            exit 0
+          fi
+
+          for z in "${zips[@]}"; do
+            echo "Extracting $z ..."
+            rm -rf /tmp/extracted
+            mkdir -p /tmp/extracted
+            unzip -q -o "$z" -d /tmp/extracted
+
+            # If the zip contains one top-level folder (e.g. the way Claude
+            # delivers it: "mama-rosas-app/android, www, .github, ..."),
+            # reach inside it. Otherwise use the extracted files as-is.
+            entries=(/tmp/extracted/*)
+            if [ ${#entries[@]} -eq 1 ] && [ -d "${entries[0]}" ]; then
+              src="${entries[0]}"
+            else
+              src="/tmp/extracted"
+            fi
+
+            # Copy every top-level item into the repo root EXCEPT .github
+            # (can't be touched by a workflow's own commit -- and you
+            # already have it) and any README that came along for the ride.
+            find "$src" -mindepth 1 -maxdepth 1 ! -iname 'README*' ! -iname '.github' -print0 |
+              while IFS= read -r -d '' item; do
+                name=$(basename "$item")
+                rm -rf "./$name"
+                cp -r "$item" "./$name"
+              done
+
+            rm -f "$z"
+          done
+
+      - name: Commit bootstrapped project files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Bootstrap project files from uploaded zip"
+            git push
+          fi

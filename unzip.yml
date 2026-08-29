@@ -1,0 +1,80 @@
+name: Unzip Web Assets
+
+# How this is meant to be used:
+#   Whenever you get a new zip of the app's web content (index.html,
+#   manifest.json, sw.js, icons/, assets/), upload that .zip file into the
+#   "incoming" folder on GitHub (repo -> incoming -> Add file -> Upload
+#   files -> commit straight to main). This workflow notices the new zip,
+#   extracts it into www/, deletes the zip, and commits the result.
+#   That commit then automatically kicks off the "Build APK" workflow
+#   (build-apk.yml) via its workflow_run trigger, so a fresh APK shows up
+#   in Releases a couple minutes later with nothing else for you to do.
+#
+# IMPORTANT: only ever drop the web-content zip in incoming/. GitHub does
+# not allow a workflow's own commit to create or modify files under
+# .github/workflows/, so this job intentionally only ever touches www/.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "incoming/*.zip"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Extract uploaded zip(s) into www/
+        run: |
+          set -e
+          shopt -s nullglob
+          zips=(incoming/*.zip)
+          if [ ${#zips[@]} -eq 0 ]; then
+            echo "No zip files found in incoming/ -- nothing to do."
+            exit 0
+          fi
+
+          for z in "${zips[@]}"; do
+            echo "Extracting $z ..."
+            rm -rf /tmp/extracted
+            mkdir -p /tmp/extracted www
+            unzip -q -o "$z" -d /tmp/extracted
+
+            # If the zip contains one top-level folder (e.g. the way Claude
+            # delivers it: "mama-rosas-app/index.html, assets/, ..."), reach
+            # inside it. Otherwise use the extracted files as-is.
+            entries=(/tmp/extracted/*)
+            if [ ${#entries[@]} -eq 1 ] && [ -d "${entries[0]}" ]; then
+              src="${entries[0]}"
+            else
+              src="/tmp/extracted"
+            fi
+
+            # Replace www/ with the new content (skip any README that
+            # came along for the ride -- it's not part of the app itself).
+            find www -mindepth 1 -delete
+            find "$src" -mindepth 1 -maxdepth 1 ! -iname 'README*' -exec cp -r {} www/ \;
+
+            rm -f "$z"
+          done
+
+      - name: Commit extracted web assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add www incoming
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Unzip uploaded web assets into www/"
+            git push
+          fi

@@ -1,0 +1,100 @@
+name: Build APK
+
+# Builds the Android debug APK and publishes it to this repo's Releases
+# page under the tag "latest", so there's always one stable download link:
+#
+#   https://github.com/<owner>/<repo>/releases/latest/download/MamaRosas-debug.apk
+#
+# That link always points at the newest successful build -- bookmark it on
+# your phone (or in a file manager like MiXplorer) and it'll always fetch
+# the current APK.
+#
+# Runs automatically after unzip.yml finishes (so updating the web content
+# alone produces a fresh APK with no extra steps), on any push that touches
+# www/ or android/ directly, and any time you trigger it manually from the
+# Actions tab ("Run workflow").
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "www/**"
+      - "android/**"
+      - "package.json"
+      - "package-lock.json"
+      - "capacitor.config.ts"
+  workflow_run:
+    workflows: ["Unzip Web Assets"]
+    types: [completed]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      - name: Sync web assets into the Android project
+        run: npx cap sync android
+
+      - name: Make sure the Android SDK tools this project needs are installed
+        run: |
+          SDKMANAGER=$(command -v sdkmanager || find "$ANDROID_SDK_ROOT/cmdline-tools" -maxdepth 2 -name sdkmanager -type f 2>/dev/null | sort | tail -1)
+          if [ -z "$SDKMANAGER" ]; then
+            echo "Could not find sdkmanager on this runner." >&2
+            exit 1
+          fi
+          echo "Using sdkmanager: $SDKMANAGER"
+          echo "$(dirname "$SDKMANAGER")" >> "$GITHUB_PATH"
+          echo "$ANDROID_SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
+          yes | "$SDKMANAGER" --licenses --sdk_root="$ANDROID_SDK_ROOT" > /dev/null || true
+          "$SDKMANAGER" --sdk_root="$ANDROID_SDK_ROOT" \
+            "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Build debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Rename APK for a stable filename
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk MamaRosas-debug.apk
+
+      - name: Upload as a workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MamaRosas-debug-apk
+          path: MamaRosas-debug.apk
+
+      - name: Publish/replace the "latest" Release with this APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: "Mama Rosa's App -- latest build"
+          body: "Automatic build from commit ${{ github.sha }}. Always the newest working APK."
+          make_latest: true
+          files: MamaRosas-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
