@@ -87,7 +87,7 @@ input,select,textarea{font:inherit;}
 .order-cta.secondary{background:var(--green-dark);}
 
 /* ---------- Quick actions ---------- */
-.quick-actions{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:22px;}
+.quick-actions{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:22px;}
 .qa-btn{
   display:flex; flex-direction:column; align-items:center; gap:6px;
   background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 4px;
@@ -127,6 +127,7 @@ input,select,textarea{font:inherit;}
   padding:12px 4px; border-bottom:1px solid var(--line);
 }
 .item-row:last-child{border-bottom:none;}
+.item-photo{width:56px;height:56px;border-radius:10px;object-fit:cover;flex-shrink:0;box-shadow:var(--shadow);}
 .item-main{display:flex; flex-direction:column; min-width:0; flex:1;}
 .item-name{font-weight:600; color:var(--ink); font-size:1rem;}
 .item-desc{font-size:.85rem; color:var(--ink-soft); margin-top:2px;}
@@ -222,7 +223,6 @@ form textarea{min-height:70px; resize:vertical;}
       <div class="quick-actions">
         <a class="qa-btn" href="tel:+17577233560"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.6 4.9 6.3 6.3l2.1-2.1c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.3 1L6.6 10.8z"/></svg><span>Call</span></a>
         <a class="qa-btn" href="https://www.google.com/maps/dir/?api=1&destination=617+E+Mercury+Blvd,+Hampton,+VA+23663" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span>Directions</span></a>
-        <button class="qa-btn" data-nav="view-reserve"><svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zM5 9h14v11H5V9z"/></svg><span>Reserve</span></button>
         <button class="qa-btn" data-nav="view-info"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Hours</span></button>
       </div>
 
@@ -380,6 +380,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-sampler-platter_7ba741b6-0b6b-4098-9540-f86d16896f17" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-fried-sampler.jpg" alt="Sampler Platter" loading="lazy">
           <span class="item-main">
             <span class="item-name">Sampler Platter</span>
             <span class="item-desc">A little bit of everything</span>
@@ -414,6 +415,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-house-salad_4db8bb62-d120-4915-ba26-90c942caa3e6" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-salad.jpg" alt="House Salad" loading="lazy">
           <span class="item-main">
             <span class="item-name">House Salad</span>
             
@@ -518,6 +520,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-white-pizza_8c90df60-4f44-4ef9-94f7-c9e2a40e4836" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-white-pizza.jpg" alt="White Pizza" loading="lazy">
           <span class="item-main">
             <span class="item-name">White Pizza</span>
             <span class="item-desc">Ricotta, mozzarella, garlic, olive oil</span>
@@ -528,6 +531,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-sals-combination_1363d5f6-5a0a-418b-860d-264afaad758b" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-supreme-pizza.jpg" alt="Sal's Combination Pizza" loading="lazy">
           <span class="item-main">
             <span class="item-name">Sal's Combination</span>
             
@@ -846,6 +850,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-veal-parmigiana_e1979e2f-c54b-487d-a025-d7b9bd8990a9" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-veal-parm.jpg" alt="Veal Parmigiana" loading="lazy">
           <span class="item-main">
             <span class="item-name">Veal Parmigiana</span>
             
@@ -1406,6 +1411,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-canoli_604c9334-a203-4470-8bc8-7785af551fa0" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-cannoli.jpg" alt="Canoli" loading="lazy">
           <span class="item-main">
             <span class="item-name">Canoli</span>
             
@@ -1426,6 +1432,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-tiramisu_9d5578b5-7323-463b-8c6e-4544c8966ffa" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-tiramisu-slice.jpg" alt="Tiramisu" loading="lazy">
           <span class="item-main">
             <span class="item-name">Tiramisu</span>
             
@@ -1436,6 +1443,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-new-york-cheesecake_35ae292e-3b7b-45cd-943d-29e87fa52a6d" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-cheesecake.jpg" alt="New York Cheesecake" loading="lazy">
           <span class="item-main">
             <span class="item-name">New York Cheesecake</span>
             
@@ -1446,6 +1454,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-chocolate-cake_61f97b62-c300-46f0-bf36-efa747284f44" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-chocolate-cake.jpg" alt="Chocolate Cake" loading="lazy">
           <span class="item-main">
             <span class="item-name">Chocolate Cake</span>
             
@@ -1456,6 +1465,7 @@ form textarea{min-height:70px; resize:vertical;}
           </span>
         </a>
         <a class="item-row" href="https://order.toasttab.com/online/mamarosas/item-carrotcake_3b2cf0bc-8701-4e20-9dc8-4a0ec4913612" target="_blank" rel="noopener">
+          <img class="item-photo" src="assets/dish-carrot-cake.jpg" alt="Carrot Cake" loading="lazy">
           <span class="item-main">
             <span class="item-name">Carrot Cake</span>
             
@@ -1532,34 +1542,6 @@ form textarea{min-height:70px; resize:vertical;}
       </a>
     </section>
 
-    <!-- ===================== RESERVE ===================== -->
-    <section class="view" id="view-reserve">
-      <h2 class="section-title">Reserve a Table</h2>
-      <p class="muted">We'll confirm by phone or email &mdash; or just call us directly.</p>
-      <div id="reserve-success" class="success-box">Thanks! Your email app should open with the request ready to send.</div>
-      <form id="reserve-form">
-        <label>Full Name<input type="text" name="name" required></label>
-        <label>Phone<input type="tel" name="phone" required></label>
-        <label>Email<input type="email" name="email" required></label>
-        <div class="form-row-2">
-          <label>Party Size
-            <select name="guests" required>
-              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11+">11+</option>
-            </select>
-          </label>
-          <label>Date<input type="date" name="date" required></label>
-        </div>
-        <label>Time
-          <select name="time" required>
-            <option value="11:00">11:00 AM</option><option value="11:30">11:30 AM</option><option value="12:00">12:00 PM</option><option value="12:30">12:30 PM</option><option value="13:00">1:00 PM</option><option value="13:30">1:30 PM</option><option value="14:00">2:00 PM</option><option value="14:30">2:30 PM</option><option value="15:00">3:00 PM</option><option value="15:30">3:30 PM</option><option value="16:00">4:00 PM</option><option value="16:30">4:30 PM</option><option value="17:00">5:00 PM</option><option value="17:30">5:30 PM</option><option value="18:00">6:00 PM</option><option value="18:30">6:30 PM</option><option value="19:00">7:00 PM</option><option value="19:30">7:30 PM</option><option value="20:00">8:00 PM</option><option value="20:30">8:30 PM</option><option value="21:00">9:00 PM</option><option value="21:30">9:30 PM</option>
-          </select>
-        </label>
-        <label>Notes (optional)<textarea name="notes" placeholder="Occasion, allergies, seating..."></textarea></label>
-        <button type="submit" class="order-cta" style="width:100%;">Request Reservation</button>
-      </form>
-      <a class="link-btn center" href="tel:+17577233560"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.6 4.9 6.3 6.3l2.1-2.1c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.3 1L6.6 10.8z"/></svg> Or just call (757) 723-3560</a>
-    </section>
-
     <!-- ===================== INFO ===================== -->
     <section class="view" id="view-info">
       <h2 class="section-title">Hours &amp; Location</h2>
@@ -1613,7 +1595,6 @@ form textarea{min-height:70px; resize:vertical;}
   <nav class="bottom-nav">
     <button class="nav-btn active" data-nav="view-home"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg><span>Home</span></button>
     <button class="nav-btn" data-nav="view-menu"><svg viewBox="0 0 24 24"><path d="M6 2v8a2 2 0 0 0 2 2v10h2V12a2 2 0 0 0 2-2V2H8v7H7V2H6zm10 0c-1.7 0-3 2.2-3 5s1.3 5 3 5v9h2V2h-2z"/></svg><span>Menu</span></button>
-    <button class="nav-btn" data-nav="view-reserve"><svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zM5 9h14v11H5V9z"/></svg><span>Reserve</span></button>
     <button class="nav-btn" data-nav="view-info"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Info</span></button>
   </nav>
 
@@ -1621,7 +1602,6 @@ form textarea{min-height:70px; resize:vertical;}
 
 <script>
 const HOURS = [{"day": 0, "open": 720, "close": 1260}, {"day": 1, "open": null, "close": null}, {"day": 2, "open": 660, "close": 1290}, {"day": 3, "open": 660, "close": 1290}, {"day": 4, "open": 660, "close": 1290}, {"day": 5, "open": 660, "close": 1320}, {"day": 6, "open": 660, "close": 1320}];
-const RESERVATION_EMAIL = "info@mamarosava.com"; // TODO: replace with the restaurant's real inbox
 
 // ---------- Tab navigation ----------
 function showView(id){
@@ -1702,29 +1682,18 @@ if (chips.length){
   catSections.forEach(sec => spy.observe(sec));
 }
 
-// ---------- Reservation form (mailto) ----------
-const reserveForm = document.getElementById('reserve-form');
-if (reserveForm){
-  reserveForm.addEventListener('submit', (e) => {
+// ---------- Order links open in an in-app browser, not the system browser ----------
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a[href*="order.toasttab.com"]');
+  if (!link) return;
+  const BrowserPlugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Browser;
+  if (BrowserPlugin){
     e.preventDefault();
-    const fd = new FormData(reserveForm);
-    const subject = 'Reservation Request \u2014 ' + fd.get('name');
-    const bodyLines = [
-      'Name: ' + fd.get('name'),
-      'Phone: ' + fd.get('phone'),
-      'Email: ' + fd.get('email'),
-      'Party size: ' + fd.get('guests'),
-      'Date: ' + fd.get('date'),
-      'Time: ' + fd.get('time'),
-      'Notes: ' + (fd.get('notes') || '\u2014')
-    ];
-    const mailto = 'mailto:' + RESERVATION_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(bodyLines.join('\n'));
-    window.location.href = mailto;
-    const successBox = document.getElementById('reserve-success');
-    if (successBox) successBox.classList.add('show');
-    reserveForm.reset();
-  });
-}
+    BrowserPlugin.open({ url: link.href });
+  }
+  // if the plugin isn't available for some reason, the link's normal
+  // target="_blank" behavior still works as a fallback.
+});
 
 // ---------- PWA install prompt ----------
 let deferredInstallPrompt = null;
